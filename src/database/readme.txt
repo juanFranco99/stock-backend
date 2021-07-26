@@ -1,0 +1,1 @@
+contendrá los archivos referentes a la base de datos del proyecto como los scripts.

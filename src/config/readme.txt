@@ -1,0 +1,1 @@
+contendrá las configuraciones del proyecto.

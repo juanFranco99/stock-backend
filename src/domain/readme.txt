@@ -1,0 +1,1 @@
+contendrá toda la estructura lógica principal del proyecto, como los modelos, dtos, modules, services, entre otros.
