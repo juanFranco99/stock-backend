@@ -8,8 +8,8 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const port = 3000;
   app.enableCors();
-
-  initSwagger(app);
+  // if(false)
+    initSwagger(app);
 
   app.useGlobalPipes(
     new ValidationPipe({
