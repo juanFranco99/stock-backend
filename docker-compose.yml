@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres-stock
+    restart: always
+    ports:
+    - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: scsp
+  
+  adminer:
+    container_name: adminer-stock
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
+
+# run: docker-compose -f docker-compose.yml up -d --build
