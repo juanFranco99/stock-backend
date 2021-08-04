@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MercaderiaModule } from './domain/mercaderia/mercaderia.module';
+import { RegistroDepositoModule } from './domain/deposito/deposito.module';
+import { EstanteModule } from './domain/estante/estante.module';
 
 @Module({
   imports: [
@@ -11,7 +13,7 @@ import { MercaderiaModule } from './domain/mercaderia/mercaderia.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'admin',
+      password: 'root',
       database: 'scsp',
       entities: [__dirname + './**/**/*entity{.ts,.js}'],
       autoLoadEntities: true,
@@ -20,6 +22,8 @@ import { MercaderiaModule } from './domain/mercaderia/mercaderia.module';
       logger: 'file',
     }),
     MercaderiaModule,
+    RegistroDepositoModule,
+    EstanteModule
   ],
   controllers: [AppController],
   providers: [AppService],

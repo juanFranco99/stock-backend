@@ -1,5 +1,6 @@
 import { Status } from 'src/enums/status.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Estante } from '../estante/estante.entity';
 
 @Entity('depositos')
 export class RegistroDeposito {
@@ -18,4 +19,12 @@ export class RegistroDeposito {
     length: 1,
   })
   status: Status;
+
+  
+  @OneToMany(() => Estante, estante => estante.deposito, {
+    onDelete: "CASCADE"
+  })
+
+  estante: Estante; 
+
 }
