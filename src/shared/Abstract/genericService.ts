@@ -1,15 +1,13 @@
-import { Repository, DeepPartial, SaveOptions } from "typeorm";
+import { Repository, DeepPartial, SaveOptions } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
-
 
 @Injectable()
 export class GenericService<E> {
-
   constructor(readonly repository: Repository<E>) {}
 
   async getAll(): Promise<E[]> {
     return await this.repository.find();
-  } 
+  }
 
   async getById(id: number): Promise<E> {
     const obj = await this.repository.findOne(id);
@@ -24,7 +22,7 @@ export class GenericService<E> {
 
   async edit(id, recordEntity: E): Promise<E> {
     const obj = await this.repository.findOne(id);
-    
+
     if (!obj) throw new NotFoundException('No existe registro');
 
     const editedObj = Object.assign(obj, recordEntity);

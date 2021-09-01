@@ -6,7 +6,6 @@ import { Estante } from './estante.entity';
 
 @Injectable()
 export class EstanteService<Estante> extends GenericService<Estante> {
-
   constructor(@InjectRepository(Estante) repository: Repository<Estante>) {
     super(repository);
   }
@@ -18,5 +17,4 @@ export class EstanteService<Estante> extends GenericService<Estante> {
       .getMany();
     return data;
   }
-  
 }

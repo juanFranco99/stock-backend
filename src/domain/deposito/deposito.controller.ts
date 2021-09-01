@@ -19,13 +19,13 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { DepositoDto } from './deposito.dto';
-import { RegistroDepositoService } from './deposito.service';
+import { Deposito } from './deposito.entity';
+import { DepositoService } from './deposito.service';
 
 @ApiTags('Registro Deposito')
 @Controller('api/v1/deposito')
-export class RegistroDepositoController {
-  constructor(private readonly service: RegistroDepositoService) {}
+export class DepositoController {
+  constructor(private readonly service: DepositoService<Deposito>) {}
 
   @Get()
   @ApiNotFoundResponse({
@@ -63,7 +63,7 @@ export class RegistroDepositoController {
   }
 
   @Post()
-  @ApiBody({ type: DepositoDto, required: true })
+  @ApiBody({ type: Deposito, required: true })
   @ApiCreatedResponse({
     status: 201,
     description: 'Retorna el registro insertado.',
@@ -73,13 +73,13 @@ export class RegistroDepositoController {
     description: 'Argumentos inválidos.',
   })
   // Insertar registro
-  async createOne(@Body() dto: DepositoDto) {
-    const data = await this.service.createOne(dto);
+  async create(@Body() dto: Deposito) {
+    const data = await this.service.create(dto);
     return { data };
   }
 
   @Put(':id')
-  @ApiBody({ type: DepositoDto, required: true })
+  @ApiBody({ type: Deposito, required: true })
   @ApiParam({ name: 'id', required: true, type: Number })
   @ApiNotFoundResponse({ status: 404, description: 'Registro inexistente' })
   @ApiBadRequestResponse({ status: 400, description: 'Argumentos inválidos' })
@@ -88,17 +88,14 @@ export class RegistroDepositoController {
     description: 'Retorna el registro actualizado',
   })
   // Actualizar registro
-  async editOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: DepositoDto,
-  ) {
-    let response: any = await this.service.editOne(id, dto);
+  async edit(@Param('id', ParseIntPipe) id: number, @Body() dto: Deposito) {
+    let response: any = await this.service.edit(id, dto);
     if (response?.data)
       response = {
         data: response.data,
         message: 'Registro actualizado',
       };
-    return await this.service.editOne(id, dto);
+    return await this.service.edit(id, dto);
   }
 
   @Delete(':id')
@@ -107,8 +104,8 @@ export class RegistroDepositoController {
   @ApiNotFoundResponse({ status: 404, description: 'Registro inexistente.' })
   @ApiBadRequestResponse({ status: 400, description: 'Argumento inválido.' })
   // Eliminar registro
-  async deleteOne(@Param('id') id: number) {
-    let response: any = await this.service.deleteOne(id);
+  async delete(@Param('id') id: number) {
+    let response: any = await this.service.delete(id);
     if (response?.id)
       response = { data: response, message: 'Registro eliminado' };
     return response;
