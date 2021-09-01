@@ -1,13 +1,14 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { EstanteDto } from './estante.dto';
+import { Estante } from './estante.entity';
 import { EstanteService } from './estante.service';
 
 @ApiTags('Estante')
 @Controller('estante')
 export class EstanteController {
 
-    constructor(private readonly service: EstanteService){}
+    constructor(private readonly service: EstanteService<Estante>){}
 
       @Get()
       async getMany() {
@@ -30,19 +31,19 @@ export class EstanteController {
       @Post()
       async createPost(@Body() dto: EstanteDto) {
         console.log(dto)
-        const data = await this.service.createOne(dto);
+        const data = await this.service.create(dto);
         return data;
       }
     
       @Put(':id')
-      async editOne(@Param('id') id: number, @Body() dto: EstanteDto) {
-        const data = await this.service.editOne(id, dto);
+      async editOne(@Param('id') id: number, @Body() dto: Estante) {
+        const data = await this.service.edit(id, dto);
         return data;
       }
     
       @Delete(':id')
       async deleteOne(@Param('id') id: number) {
-        const data = await this.service.deleteOne(id);
+        const data = await this.service.delete(id);
         return data;
       }
 
