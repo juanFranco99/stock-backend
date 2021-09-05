@@ -30,6 +30,9 @@ export class GenericService<E> {
   }
 
   async delete(id): Promise<void> {
+    const obj = await this.repository.findOne(id);
+
+    if (!obj) throw new NotFoundException('No existe registro');
     await this.repository.delete(id);
   }
 }
