@@ -1,31 +1,16 @@
-import { BadRequestException } from '@nestjs/common';
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  NotFoundException,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-} from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiBody,
-  ApiCreatedResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiParam,
-  ApiTags,
-} from '@nestjs/swagger';
-import { DepositoDto } from './deposito.dto';
-import { RegistroDepositoService } from './deposito.service';
+import { Body, Controller, Delete, NotFoundException } from '@nestjs/common';
+import { Param, ParseIntPipe, Post, Put, Get } from '@nestjs/common';
+import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiParam } from '@nestjs/swagger';
+import { Status } from 'src/enums/status.enum';
+import { Deposito } from './deposito.entity';
+import { DepositoService } from './deposito.service';
 
 @ApiTags('Registro Deposito')
 @Controller('api/v1/deposito')
-export class RegistroDepositoController {
-  constructor(private readonly service: RegistroDepositoService) {}
+export class DepositoController {
+  constructor(private readonly service: DepositoService<Deposito>) {}
 
   @Get()
   @ApiNotFoundResponse({
@@ -41,7 +26,25 @@ export class RegistroDepositoController {
     const data = await this.service.getAll();
     if (data.length === 0)
       throw new NotFoundException('Sin registros para mostrar.');
-    return { data, length: data.length };
+    return data;
+  }
+
+  @Get('activo')
+  @ApiNotFoundResponse({
+    status: 404,
+    description: 'Sin registros para mostrar.',
+  })
+  @ApiOkResponse({
+    status: 200,
+    description: 'Retorna los registros activos.',
+  })
+  async getActivo() {
+    try {
+      const data = await this.service.getActivos();
+      if (data.length === 0)
+        throw new NotFoundException('Sin registros para mostrar.');
+      return data;
+    } catch (error) {}
   }
 
   @Get(':id')
@@ -59,11 +62,28 @@ export class RegistroDepositoController {
   async getOne(@Param('id', ParseIntPipe) id: number) {
     const data = await this.service.getById(id);
     if (!data) throw new NotFoundException('Registro inexistente.');
-    return { data };
+    return data;
+  }
+
+  @Get('activo/:id')
+  @ApiNotFoundResponse({
+    status: 404,
+    description: 'Registro inexistente.',
+  })
+  @ApiOkResponse({
+    status: 200,
+    description: 'Retorna el registro solicitado.',
+  })
+  @ApiBadRequestResponse({ status: 400, description: 'Argumento inválido.' })
+  @ApiParam({ name: 'id', required: true, type: Number })
+  async getActivoById(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.service.getActivoById(id);
+    if (!data) throw new NotFoundException('Registro inexistente.');
+    return data;
   }
 
   @Post()
-  @ApiBody({ type: DepositoDto, required: true })
+  @ApiBody({ type: Deposito, required: true })
   @ApiCreatedResponse({
     status: 201,
     description: 'Retorna el registro insertado.',
@@ -73,13 +93,18 @@ export class RegistroDepositoController {
     description: 'Argumentos inválidos.',
   })
   // Insertar registro
-  async createOne(@Body() dto: DepositoDto) {
-    const data = await this.service.createOne(dto);
-    return { data };
+  async create(@Body() dto: Deposito) {
+    try {
+      const data = await this.service.create(dto);
+      return { ok: true, message: 'Registro insertado', data };
+    } catch (error) {
+      console.error(error);
+      return { ok: false, message: 'Error al insertar' };
+    }
   }
 
   @Put(':id')
-  @ApiBody({ type: DepositoDto, required: true })
+  @ApiBody({ type: Deposito, required: true })
   @ApiParam({ name: 'id', required: true, type: Number })
   @ApiNotFoundResponse({ status: 404, description: 'Registro inexistente' })
   @ApiBadRequestResponse({ status: 400, description: 'Argumentos inválidos' })
@@ -88,17 +113,18 @@ export class RegistroDepositoController {
     description: 'Retorna el registro actualizado',
   })
   // Actualizar registro
-  async editOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: DepositoDto,
-  ) {
-    let response: any = await this.service.editOne(id, dto);
-    if (response?.data)
-      response = {
-        data: response.data,
+  async edit(@Param('id', ParseIntPipe) id: number, @Body() dto: Deposito) {
+    try {
+      let data: any = await this.service.edit(id, dto);
+      return {
+        ok: true,
         message: 'Registro actualizado',
+        data,
       };
-    return await this.service.editOne(id, dto);
+    } catch (error) {
+      console.error(error);
+      return { ok: false, message: 'Error al actualizar' };
+    }
   }
 
   @Delete(':id')
@@ -107,10 +133,15 @@ export class RegistroDepositoController {
   @ApiNotFoundResponse({ status: 404, description: 'Registro inexistente.' })
   @ApiBadRequestResponse({ status: 400, description: 'Argumento inválido.' })
   // Eliminar registro
-  async deleteOne(@Param('id') id: number) {
-    let response: any = await this.service.deleteOne(id);
-    if (response?.id)
-      response = { data: response, message: 'Registro eliminado' };
-    return response;
+  async delete(@Param('id') id: number) {
+    try {
+      const data: any = await this.service.getById(id);
+
+      await this.service.edit(id, { ...data, status: Status.INACTIVO });
+      return { ok: true, data, message: 'Registro eliminado' };
+    } catch (error) {
+      console.error(error);
+      return { ok: false, message: error.message };
+    }
   }
 }
