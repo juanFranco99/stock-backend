@@ -12,7 +12,7 @@ import { MercaderiaDto } from './mercaderia.dto';
 import { MercaderiaService } from './mercaderia.service';
 
 @ApiTags('Mercaderia')
-@Controller('mercaderia')
+@Controller('/api/v1/mercaderia')
 export class MercaderiaController {
   constructor(private readonly service: MercaderiaService) {}
 

@@ -1,39 +1,36 @@
+import { IsOptional } from 'class-validator';
 import { Condicional } from 'src/enums/condicional.enum';
 import { Status } from 'src/enums/status.enum';
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Mercaderia {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  cod_mercaderia: number;
 
-  @Column()
+  @Column({ nullable: true })
   cod_departamento: number;
 
   @Column()
   cod_envase: number;
 
-  @Column()
+  @Column({ nullable: true })
   cod_fabricante: string;
 
-  @Column({ unique: true })
-  @Unique(['uq_mercaderia_cod_mercaderia'])
-  cod_mercaderia: number;
-
   @Column()
-  cod_sugrupo: number;
+  cod_subgrupo: number;
 
-  @Column()
+  @Column(IsOptional)
   cod_sucursal: number;
 
   @Column()
   cod_unidad_medida: number;
 
-  @Column()
+  @Column({ nullable: true })
   codigo_barras: string;
 
   @Column({ length: 1 })
-  controla_lote_mercaderia: Condicional;
+  controlaLoteMercaderia: Condicional;
 
   @Column()
   descripcion: string;
@@ -41,9 +38,9 @@ export class Mercaderia {
   @Column()
   envase_desc: string;
 
-  @Column()
+  @Column({ nullable: true })
   fabricante_desc: string;
 
   @Column({ length: 1 })
-  status: Status;
+  situacion: Status;
 }

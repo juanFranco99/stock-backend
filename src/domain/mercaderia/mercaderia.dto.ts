@@ -1,39 +1,53 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsOptional, IsString, Length } from 'class-validator';
 import { Condicional } from 'src/enums/condicional.enum';
 import { Status } from 'src/enums/status.enum';
+import { PrimaryColumn } from 'typeorm';
 
 export class MercaderiaDto {
   @IsInt()
+  @ApiProperty()
+  @PrimaryColumn()
+  cod_mercaderia: number;
+
+  @ApiProperty()
+  @IsOptional()
   cod_departamento: number;
 
   @IsInt()
+  @ApiProperty()
   cod_envase: number;
 
   @IsString()
+  @ApiProperty()
+  @IsOptional()
   cod_fabricante: string;
 
   @IsInt()
-  cod_mercaderia: number;
+  @ApiProperty()
+  cod_subgrupo: number;
 
-  @IsInt()
-  cod_sugrupo: number;
-
-  @IsInt()
+  @ApiProperty()
+  @IsOptional()
   cod_sucursal: number;
 
   @IsInt()
+  @ApiProperty()
   cod_unidad_medida: number;
 
   @IsString()
   @Length(13)
   @IsOptional()
+  @ApiProperty()
   codigo_barras: string;
 
   @IsEnum(Condicional, { message: `Condicional invalida` })
-  controla_lote_mercaderia: Condicional;
+  @ApiProperty({ enum: Condicional })
+  controlaLoteMercaderia: Condicional;
 
   @IsString()
   @IsOptional()
+  @ApiProperty()
   descripcion: string;
 
   @IsString()
@@ -42,8 +56,10 @@ export class MercaderiaDto {
 
   @IsString()
   @IsOptional()
+  @ApiProperty()
   fabricante_desc: string;
 
   @IsEnum(Status, { message: `Status invalido` })
-  status: Status;
+  @ApiProperty({ enum: Status })
+  situacion: Status;
 }

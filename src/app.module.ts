@@ -23,7 +23,7 @@ import { EstanteModule } from './domain/estante/estante.module';
     }),
     MercaderiaModule,
     RegistroDepositoModule,
-    EstanteModule
+    EstanteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
