@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { GenericService } from 'src/shared/Abstract/genericService';
 import { Estante } from './estante.entity';
+import { EstanteDto } from './estante.dto';
 
 @Injectable()
-export class EstanteService<Estante> extends GenericService<Estante> {
+export class EstanteService<Estante> extends GenericService<Estante, EstanteDto> {
   constructor(@InjectRepository(Estante) repository: Repository<Estante>) {
     super(repository);
   }

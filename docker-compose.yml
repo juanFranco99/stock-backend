@@ -10,6 +10,7 @@ services:
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: scsp
+      SECRET_KEY: stock_secret_key
   
   adminer:
     container_name: adminer-stock

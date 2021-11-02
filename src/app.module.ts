@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { MercaderiaModule } from './domain/mercaderia/mercaderia.module';
 import { DepositoModule } from './domain/deposito/deposito.module';
 import { EstanteModule } from './domain/estante/estante.module';
+import { AuthModule } from './domain/auth/auth.module';
+import { UserModule } from './domain/user/user.module';
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { EstanteModule } from './domain/estante/estante.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'admin',
+      password: 'root',
       database: 'scsp',
       entities: [__dirname + './**/**/*entity{.ts,.js}'],
       autoLoadEntities: true,
@@ -24,6 +26,8 @@ import { EstanteModule } from './domain/estante/estante.module';
     MercaderiaModule,
     DepositoModule,
     EstanteModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

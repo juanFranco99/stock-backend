@@ -7,7 +7,7 @@ import { Status } from 'src/enums/status.enum';
 import { Deposito } from './deposito.entity';
 import { DepositoService } from './deposito.service';
 
-@ApiTags('Registro Deposito')
+@ApiTags('Deposito')
 @Controller('api/v1/deposito')
 export class DepositoController {
   constructor(private readonly service: DepositoService<Deposito>) {}

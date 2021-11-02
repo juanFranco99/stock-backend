@@ -49,9 +49,10 @@ import { Injectable } from '@nestjs/common';
 import { GenericService } from 'src/shared/Abstract/genericService';
 import { Deposito } from './deposito.entity';
 import { Status } from 'src/enums/status.enum';
+import { DepositoDto } from './deposito.dto';
 
 @Injectable()
-export class DepositoService<Deposito> extends GenericService<Deposito> {
+export class DepositoService<Deposito> extends GenericService<Deposito, DepositoDto> {
   constructor(@InjectRepository(Deposito) repository: Repository<Deposito>) {
     super(repository);
   }
