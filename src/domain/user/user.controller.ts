@@ -14,9 +14,9 @@ export class UserController extends GenericController<User, UserDto>{
         super(service);
     }
 
-    @Post("ChangePassword")
+    @Post("changePassword")
     async changePass(@Body() dto: ChangeUserPasswordDto) {
-      const data = await this.service.changePassword(dto);
+          const data = await this.service.changePassword(dto);
       return data;
     }
 }
