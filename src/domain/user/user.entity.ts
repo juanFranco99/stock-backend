@@ -1,6 +1,7 @@
 import { classToPlain, Exclude } from "class-transformer";
 import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { TipoUser } from '../../enums/tipo_user.enum';
 
 @Entity()
 export class User {
@@ -14,6 +15,9 @@ export class User {
     @Column()
     @Exclude({ toPlainOnly: true})
     password: string;
+
+    @Column()
+    tipo_user: TipoUser;
 
     toJSON(){
         return classToPlain(this);
