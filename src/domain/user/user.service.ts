@@ -7,7 +7,7 @@ import { UserDto } from './user.dto';
 import { ChangeUserPasswordDto } from './change-user-pass.dto';
 
 @Injectable()
-export class UserService extends GenericService<User, UserDto>{
+export class UserService extends GenericService<User>{
     constructor(
         @InjectRepository(User)
         readonly repository:Repository<User>

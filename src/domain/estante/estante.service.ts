@@ -6,7 +6,7 @@ import { Estante } from './estante.entity';
 import { EstanteDto } from './estante.dto';
 
 @Injectable()
-export class EstanteService<Estante> extends GenericService<Estante, EstanteDto> {
+export class EstanteService<Estante> extends GenericService<Estante> {
   constructor(@InjectRepository(Estante) repository: Repository<Estante>) {
     super(repository);
   }

@@ -52,7 +52,7 @@ import { Status } from 'src/enums/status.enum';
 import { DepositoDto } from './deposito.dto';
 
 @Injectable()
-export class DepositoService<Deposito> extends GenericService<Deposito, DepositoDto> {
+export class DepositoService<Deposito> extends GenericService<Deposito> {
   constructor(@InjectRepository(Deposito) repository: Repository<Deposito>) {
     super(repository);
   }

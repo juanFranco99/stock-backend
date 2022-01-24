@@ -2,7 +2,7 @@ import { Repository, DeepPartial, SaveOptions } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
-export class GenericService<E, DTO> {
+export class GenericService<E> {
   constructor(readonly repository: Repository<E>) {}
 
   async getAll(): Promise<E[]> {
