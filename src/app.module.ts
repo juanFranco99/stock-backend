@@ -7,6 +7,8 @@ import { DepositoModule } from './domain/deposito/deposito.module';
 import { EstanteModule } from './domain/estante/estante.module';
 import { AuthModule } from './domain/auth/auth.module';
 import { UserModule } from './domain/user/user.module';
+import { ComputadoraModule } from './domain/computadoras/computadoras.module';
+import { ComputadoraController } from './domain/computadoras/computadoras.controller';
 
 @Module({
   imports: [
@@ -16,7 +18,7 @@ import { UserModule } from './domain/user/user.module';
       port: 5432,
       username: 'postgres',
       password: 'root',
-      database: 'scsp',
+      database: 'soporte',
       entities: [__dirname + './**/**/*entity{.ts,.js}'],
       autoLoadEntities: true,
       synchronize: true,
@@ -28,8 +30,9 @@ import { UserModule } from './domain/user/user.module';
     EstanteModule,
     AuthModule,
     UserModule,
+    ComputadoraModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, ],
+  providers: [AppService, ],
 })
 export class AppModule {}
