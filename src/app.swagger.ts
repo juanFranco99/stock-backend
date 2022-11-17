@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 
 export const initSwagger = (app: INestApplication) => {
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('SCSP API DOCS')
+    .setTitle('SOPORTE API DOCS')
     .setDescription('Documentación de la API del proyecto SCSP')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);

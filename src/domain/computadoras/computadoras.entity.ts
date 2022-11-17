@@ -39,12 +39,12 @@ export class Computadora {
   @Column()
   modelo: string;
 
-  @ApiProperty({
-    enum: Tipo,
-  })
-  @IsEnum(Tipo)
-  @Column()
-  tipo: Tipo;
+  // @ApiProperty({
+  //   enum: Tipo,
+  // })
+  // @IsEnum(Tipo)
+  // @Column()
+  // tipo: Tipo;
 
   @ApiProperty({
     enum: Procesador,
